@@ -3,7 +3,7 @@
 /* ============================================================
  * Platform options
  * ============================================================ */
-
+#define VERSION "0.1.0"
 #ifdef __APPLE__
 #  define __DARWIN_C_SOURCE
 #elif defined(__FreeBSD__) || defined(__NetBSD__) || defined(__SYMBIAN32__)

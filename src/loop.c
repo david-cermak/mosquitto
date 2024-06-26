@@ -231,13 +231,13 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 #endif
 		if(flag_reload){
 			log__printf(NULL, MOSQ_LOG_INFO, "Reloading config.");
-			config__read(db.config, true);
-			listeners__reload_all_certificates();
-			mosquitto_security_cleanup(true);
-			mosquitto_security_init(true);
-			mosquitto_security_apply();
-			log__close(db.config);
-			log__init(db.config);
+//			config__read(db.config, true);
+//			listeners__reload_all_certificates();
+//			mosquitto_security_cleanup(true);
+//			mosquitto_security_init(true);
+//			mosquitto_security_apply();
+//			log__close(db.config);
+//			log__init(db.config);
 			flag_reload = false;
 		}
 		if(flag_tree_print){
@@ -266,7 +266,7 @@ int mosquitto_main_loop(struct mosquitto__listener_sock *listensock, int listens
 			}
 		}
 #endif
-		plugin__handle_tick();
+//		plugin__handle_tick();
 	}
 
 	mux__cleanup();
@@ -368,8 +368,8 @@ void do_disconnect(struct mosquitto *context, int reason)
 				}
 			}
 		}
-		mux__delete(context);
-		context__disconnect(context);
+//		mux__delete(context);
+//		context__disconnect(context);
 	}
 }
 

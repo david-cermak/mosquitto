@@ -617,7 +617,7 @@ int net__tls_load_verify(struct mosquitto__listener *listener)
 }
 
 
-#ifndef WIN32
+#if !(defined(WIN32) || defined(ESP_PLATFORM))
 static int net__bind_interface(struct mosquitto__listener *listener, struct addrinfo *rp)
 {
 	/*
@@ -766,7 +766,7 @@ static int net__socket_listen_tcp(struct mosquitto__listener *listener)
 			return 1;
 		}
 
-#ifndef WIN32
+#if !(defined(WIN32) || defined(ESP_PLATFORM))
 		if(listener->bind_interface){
 			/* It might be possible that an interface does not support all relevant sa_families.
 			 * We should successfully find at least one. */

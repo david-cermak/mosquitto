@@ -81,7 +81,7 @@ int mux_poll__init(struct mosquitto__listener_sock *listensock, int listensock_c
 #ifdef WIN32
 	pollfd_max = (size_t)_getmaxstdio();
 #else
-	pollfd_max = (size_t)sysconf(_SC_OPEN_MAX);
+	pollfd_max = 64; //(size_t)sysconf(_SC_OPEN_MAX);
 #endif
 
 	pollfds = mosquitto__calloc(pollfd_max, sizeof(struct pollfd));
@@ -197,9 +197,9 @@ int mux_poll__handle(struct mosquitto__listener_sock *listensock, int listensock
 #endif
 
 #ifndef WIN32
-	sigprocmask(SIG_SETMASK, &my_sigblock, &origsig);
+//	sigprocmask(SIG_SETMASK, &my_sigblock, &origsig);
 	fdcount = poll(pollfds, pollfd_current_max+1, 100);
-	sigprocmask(SIG_SETMASK, &origsig, NULL);
+//	sigprocmask(SIG_SETMASK, &origsig, NULL);
 #else
 	fdcount = WSAPoll(pollfds, pollfd_current_max+1, 100);
 #endif

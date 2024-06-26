@@ -22,7 +22,7 @@ Contributors:
 #ifdef WIN32
 #	include <windows.h>
 #else
-#	include <dlfcn.h>
+//#	include <dlfcn.h>
 #endif
 
 #ifdef WIN32
@@ -30,9 +30,11 @@ Contributors:
 #	define LIB_CLOSE(A) FreeLibrary(A)
 #	define LIB_SYM(HANDLE, SYM) GetProcAddress(HANDLE, SYM)
 #else
-#	define LIB_LOAD(A) dlopen(A, RTLD_NOW|RTLD_GLOBAL)
-#	define LIB_CLOSE(A) dlclose(A)
-#	define LIB_SYM(HANDLE, SYM) dlsym(HANDLE, SYM)
+
+#      define LIB_LOAD(A) NULL
+#      define LIB_CLOSE(A)
+#      define LIB_SYM(HANDLE, SYM) NULL
+#define dlerror() "dlerror not supported"
 #endif
 
 #define LIB_SYM_EASY(MEMBER, HANDLE, SYM) if(!(MEMBER = LIB_SYM(HANDLE, SYM)) return 1

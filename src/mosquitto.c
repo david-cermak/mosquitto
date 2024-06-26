@@ -445,7 +445,7 @@ static int pid__write(void)
 }
 
 
-int main(int argc, char *argv[])
+int mosq_main(int argc, char *argv[])
 {
 	struct mosquitto__config config;
 #ifdef WITH_BRIDGE
@@ -499,22 +499,22 @@ int main(int argc, char *argv[])
 	net__broker_init();
 
 	config__init(&config);
-	rc = config__parse_args(&config, argc, argv);
-	if(rc != MOSQ_ERR_SUCCESS) return rc;
+//	rc = config__parse_args(&config, argc, argv);
+//	if(rc != MOSQ_ERR_SUCCESS) return rc;
 	db.config = &config;
 
 	/* Drop privileges permanently immediately after the config is loaded.
 	 * This requires the user to ensure that all certificates, log locations,
 	 * etc. are accessible my the `mosquitto` or other unprivileged user.
 	 */
-	rc = drop_privileges(&config);
-	if(rc != MOSQ_ERR_SUCCESS) return rc;
+//	rc = drop_privileges(&config);
+//	if(rc != MOSQ_ERR_SUCCESS) return rc;
 
-	if(config.daemon){
-		mosquitto__daemonise();
-	}
+//	if(config.daemon){
+//		mosquitto__daemonise();
+//	}
 
-	if(pid__write()) return 1;
+//	if(pid__write()) return 1;
 
 	rc = db__open(&config);
 	if(rc != MOSQ_ERR_SUCCESS){
@@ -535,22 +535,22 @@ int main(int argc, char *argv[])
 		log__printf(NULL, MOSQ_LOG_INFO, "Using default config.");
 	}
 
-	rc = mosquitto_security_module_init();
-	if(rc) return rc;
-	rc = mosquitto_security_init(false);
-	if(rc) return rc;
+//	rc = mosquitto_security_module_init();
+//	if(rc) return rc;
+//	rc = mosquitto_security_init(false);
+//	if(rc) return rc;
 
 	/* After loading persisted clients and ACLs, try to associate them,
 	 * so persisted subscriptions can start storing messages */
-	HASH_ITER(hh_id, db.contexts_by_id, ctxt, ctxt_tmp){
-		if(ctxt && !ctxt->clean_start && ctxt->username){
-			rc = acl__find_acls(ctxt);
-			if(rc){
-				log__printf(NULL, MOSQ_LOG_WARNING, "Failed to associate persisted user %s with ACLs, "
-					"likely due to changed ports while using a per_listener_settings configuration.", ctxt->username);
-			}
-		}
-	}
+//	HASH_ITER(hh_id, db.contexts_by_id, ctxt, ctxt_tmp){
+//		if(ctxt && !ctxt->clean_start && ctxt->username){
+//			rc = acl__find_acls(ctxt);
+//			if(rc){
+//				log__printf(NULL, MOSQ_LOG_WARNING, "Failed to associate persisted user %s with ACLs, "
+//					"likely due to changed ports while using a per_listener_settings configuration.", ctxt->username);
+//			}
+//		}
+//	}
 
 #ifdef WITH_SYS_TREE
 	sys_tree__init();
@@ -561,7 +561,7 @@ int main(int argc, char *argv[])
 	rc = mux__init(listensock, listensock_count);
 	if(rc) return rc;
 
-	signal__setup();
+//	signal__setup();
 
 #ifdef WITH_BRIDGE
 	bridge__start_all();
@@ -576,7 +576,7 @@ int main(int argc, char *argv[])
 	rc = mosquitto_main_loop(listensock, listensock_count);
 
 	log__printf(NULL, MOSQ_LOG_INFO, "mosquitto version %s terminating", VERSION);
-
+    return 0;
 	/* FIXME - this isn't quite right, all wills with will delay zero should be
 	 * sent now, but those with positive will delay should be persisted and
 	 * restored, pending the client reconnecting in time. */

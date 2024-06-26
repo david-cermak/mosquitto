@@ -121,14 +121,14 @@ int log__init(struct mosquitto__config *config)
 	}
 
 	if(log_destinations & MQTT3_LOG_FILE){
-		config->log_fptr = mosquitto__fopen(config->log_file, "at", true);
-		if(config->log_fptr){
-			setvbuf(config->log_fptr, log_fptr_buffer, _IOLBF, sizeof(log_fptr_buffer));
-		}else{
-			log_destinations = MQTT3_LOG_STDERR;
-			log_priorities = MOSQ_LOG_ERR;
-			log__printf(NULL, MOSQ_LOG_ERR, "Error: Unable to open log file %s for writing.", config->log_file);
-		}
+//		config->log_fptr = mosquitto__fopen(config->log_file, "at", true);
+//		if(config->log_fptr){
+//			setvbuf(config->log_fptr, log_fptr_buffer, _IOLBF, sizeof(log_fptr_buffer));
+//		}else{
+//			log_destinations = MQTT3_LOG_STDERR;
+//			log_priorities = MOSQ_LOG_ERR;
+//			log__printf(NULL, MOSQ_LOG_ERR, "Error: Unable to open log file %s for writing.", config->log_file);
+//		}
 	}
 	if(log_destinations & MQTT3_LOG_STDOUT){
 		setvbuf(stdout, NULL, _IOLBF, 0);

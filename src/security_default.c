@@ -543,7 +543,7 @@ static int aclfile__parse(struct mosquitto__security_options *security_opts)
 
 	while(fgets_extending(&buf, &buflen, aclfptr)){
 		slen = strlen(buf);
-		while(slen > 0 && isspace(buf[slen-1])){
+		while(slen > 0 && isspace((int)buf[slen-1])){
 			buf[slen-1] = '\0';
 			slen = strlen(buf);
 		}
